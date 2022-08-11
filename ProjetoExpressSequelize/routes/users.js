@@ -37,7 +37,7 @@ router.get('/:usuarioId', (request, response) => {
       model: Tarefa,
       required: false,
       attributes: ['id', 'titulo'],
-    }]
+    }],
   }).then(usuario => {
       if(usuario) {
         response.status(200).json(usuario);
