@@ -6,6 +6,8 @@ var app = require('./app');
 var debug = require('debug')('gerenciadordetarefas:server');
 var http = require('http');
 
+import {sequelize} from './models';
+
 /**
  * Get port from environment and store in Express.
  */
@@ -23,9 +25,15 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+sequelize.sync({force: true})
+  .then(() => {
+    server.listen(port);
+    server.on('error', onError);
+    server.on('listening', onListening);
+  }).catch(error => {
+    console.error(error);
+  });
+
 
 /**
  * Normalize a port into a number, string, or false.
