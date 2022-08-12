@@ -1,0 +1,44 @@
+{
+    "version": "2.0.0",
+    "type": "shell",
+    "command": "npm",
+    "args": [
+        "run"
+    ],
+    "presentation": {
+        "reveal": "silent"
+    },
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "npm",
+            "args": ["run"],
+            "group": "none",
+            "presentation": {
+                "reveal": "silent"
+            }
+        }
+    ]
+}
+
+/*
+{
+    "version": "2.0.0",
+    "command": "npm",
+    "isShellCommand": true,
+    "args": [
+        "run"
+    ],
+    "showOutput": "silent",
+    "tasks": [
+        {
+            "taskName": "build",
+            "isBuildCommand": false,
+            "isTestCommand": false,
+            "showOutput": "silent",
+            "args": []
+        }
+    ]
+}
+*/
