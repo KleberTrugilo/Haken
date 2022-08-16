@@ -18,7 +18,8 @@
                 "--nolazy"
             ],
             "env": {
-                "NODE_ENV": "development"
+                "NODE_ENV": "development",
+                "BABEL_ENV": "development"
             },
             "sourceMaps": true,
             "outFiles": [
@@ -36,7 +37,7 @@
 //             "request": "launch",
 //             "name": "debug",
 //             "preLaunchTask": "build",
-//             //"preLaunchTask": "task:build:debug",
+//             "preLaunchTask": "task:build:debug",
 //             "program": "${workspaceRoot}/index.js",
 //             "sourceMaps": true,
 //             "env": {

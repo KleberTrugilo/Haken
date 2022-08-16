@@ -3,7 +3,8 @@
  */
 
 var app = require('./app');
-var debug = require('debug')('gerenciadordetarefas:server');
+
+var debug = require('debug')('http:server');
 var http = require('http');
 
 import {sequelize} from './models';
