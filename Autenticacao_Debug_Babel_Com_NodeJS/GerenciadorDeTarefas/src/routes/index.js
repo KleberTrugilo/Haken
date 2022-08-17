@@ -18,9 +18,9 @@ const loadRoutes = (app, appPath) =>
         .forEach((file) => {
             const routeFile = path.join(__dirname, file);
             const route = require(routeFile).default || require(routeFile);
-            console.log(appPath, route);
+            // console.log(appPath, route);
             const routePath = urlJoin(appPath, route.path);
-            console.log(routePath);
+            // console.log(routePath);
             debug("Loading: " + routePath);
             app.use(routePath, route.router);
         });
