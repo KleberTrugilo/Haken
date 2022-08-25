@@ -1,14 +1,14 @@
-import './App.css';
+import React from 'react';
 
-import { HashRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Tarefas from './pages/Tarefas';
 import Sobre from './pages/Sobre';
 
-function App() {   
-    return (
-        <HashRouter>
+function App() {
+    return(
+        <BrowserRouter>
             <div>
                 <ul>
                     <li> <Link to="/" > Página Inicial </Link> </li>
@@ -16,13 +16,15 @@ function App() {
                     <li> <Link to="/sobre" > Sobre </Link> </li>
                 </ul>
 
-                <br />
-                
-                <Route path="/" component={Home} />
-                <Route path="/tarefas" component={Tarefas} />
-                <Route path="/sobre" component={Sobre} />
+                <hr />
+
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/tarefas/*" element={<Tarefas />} />
+                    <Route path="/sobre" element={<Sobre />} />
+                </Routes>
             </div>
-        </HashRouter>
+        </BrowserRouter>
     );
 }
 
