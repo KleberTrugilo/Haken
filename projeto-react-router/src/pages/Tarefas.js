@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Route, Link, Routes, useParams, Outlet } from 'react-router-dom';
+import { Route, Link, Routes, useParams } from 'react-router-dom';
 
 const TAREFAS = [
     {
@@ -26,18 +26,26 @@ const TAREFAS = [
     }
 ]
 
-const DetalhesDaTarefa = () => {
-    const { tarefaId } = useParams();
-    return (
-        <>
-            <div> Detalhes da tarefa { tarefaId } </div>
-
-            <Outlet />
-        </>
-    );
-}
-
 export default function Tarefas() {
+    const DetalhesDaTarefa = () => {
+        const { tarefaId } = useParams();
+        const tarefa = TAREFAS.find((tarefa) => {
+            return tarefa.id === parseInt(tarefaId, 10);
+        });
+    
+        if (!tarefa) return null;
+    
+        return (
+                <div>
+                     <h3>{tarefa.id}: {tarefa.titulo}</h3>
+                     <br />
+                     <p>
+                        {tarefa.descricao}
+                     </p>
+                </div>
+        );
+    }
+
     return(
         <div>
             <h1>Tarefas</h1>
@@ -51,37 +59,50 @@ export default function Tarefas() {
                 }}>
                     <h2>Lista</h2>
                     <ul style={{
-                        listStyleType: 'decimal',
+                        listStyleType: 'none',
                         textAlign: 'center',
+                        paddingInlineStart: '0',
                     }}>
                     {TAREFAS.map((tarefa) => {
-                        return( 
-                            <li style={{
-                                textAlign: 'center',
-                            }}>
-                                <Link to={ `/tarefas/${tarefa.id}` } >
-                                    { tarefa.titulo }
-                                </Link>
+                        return (
+                            <li 
+                                style={{textAlign: 'center',}}
+                                key={tarefa.id}
+                            >
+                                    <Link 
+                                        style={{textDecoration: 'none',}}  
+                                        to={`/tarefas/${tarefa.id}`} 
+                                    >
+                                        {tarefa.titulo} 
+                                    </Link>
                             </li>
-                            );
+                        )
                     })}
 
                     </ul>
                 </div>
                 <div style={{
                     width: '65%',
-                    textAlign: 'center',
                 }}>
-                    <h2>Detalhes</h2>
-                    <Routes>
-                            <Route 
-                                path=':tarefaId' 
-                                element={< DetalhesDaTarefa />} 
-                            />
-                    </Routes>
+                    <div style={{
+                        width: '40%',
+                        height: '200px',
+                        textAlign: 'center',
+                        backgroundColor: '#CCC',
+                        borderRadius: '10px',
+                        padding: '1rem 0',
+                        margin: 'auto',
+                    }}>
+                        <h2>Detalhes</h2>
+                        <Routes>
+                                <Route 
+                                    path=':tarefaId' 
+                                    element={< DetalhesDaTarefa />} 
+                                />
+                        </Routes>    
+                    </div>
                 </div>
             </div>
         </div>
     )
-
 }
