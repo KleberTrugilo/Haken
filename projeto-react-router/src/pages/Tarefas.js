@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Route, Link, Routes, useParams } from 'react-router-dom';
+import { Route, NavLink, Routes, useParams } from 'react-router-dom';
+
+import '../App.css';
 
 const TAREFAS = [
     {
@@ -69,12 +71,12 @@ export default function Tarefas() {
                                 style={{textAlign: 'center',}}
                                 key={tarefa.id}
                             >
-                                    <Link 
-                                        style={{textDecoration: 'none',}}  
+                                    <NavLink 
+                                        className={({ isActive }) => (isActive ? "active" : "notActive")} 
                                         to={`/tarefas/${tarefa.id}`} 
                                     >
                                         {tarefa.titulo} 
-                                    </Link>
+                                    </NavLink>
                             </li>
                         )
                     })}

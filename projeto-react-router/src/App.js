@@ -1,17 +1,17 @@
 import React, {Component} from 'react';
 
 import { BrowserRouter, Routes, Route,
-         Link, Navigate, useLocation, 
-         Outlet } from 'react-router-dom';
+         NavLink, Navigate, useLocation, 
+         Outlet,
+         useParams } from 'react-router-dom';
 
 import Home from './pages/Home';
 import Tarefas from './pages/Tarefas';
 import Sobre from './pages/Sobre';
 import Login from './pages/Login';
+import './App.css';
 
 import LoginManager from './LoginManager';
-
-// let loggedUser  = LoginManager.usuarioLogado;
 
 const PrivateRoutes = () => {
     const location = useLocation();
@@ -22,33 +22,28 @@ const PrivateRoutes = () => {
     );
 }
 
-// const withRouter = (Component) => {
-//     const ComponentWithRouterProps = (props) => {
-//         return (
-//             <Component {...props} />
-//         );
-//     }
-//     return ComponentWithRouterProps;
-// }
-
-// const LogoutButton = withRouter((props) => {
-//     if (!LoginManager.usuarioLogado)
-//         return null;
-
-//     return (
-//         <button {...props} >Sair</button>
-//     )
-// });
-
-const LogoutButton = (props) => {
-    if(!LoginManager.usuarioLogado) {
-        return null; 
-    } else {
+const withRouter = (Component) => {
+    const ComponentWithRouterProps = (props) => {
+        let location = useLocation();
+        let params = useParams();
         return (
-            <button {...props} >Sair</button>
+            <Component {...props} 
+            location={location}
+            params={params}
+            />
         );
     }
+    return ComponentWithRouterProps;
 }
+
+const LogoutButton = withRouter((props) => {
+    if (!LoginManager.usuarioLogado)
+        return null;
+
+    return (
+        <button onClick={props.onClick} >Sair</button>
+    )
+});
 
 class App extends Component {
     logout = () => {
@@ -61,9 +56,27 @@ class App extends Component {
             <BrowserRouter>
                 <div>
                     <ul>
-                        <li> <Link to="/" > Página Inicial </Link> </li>
-                        <li> <Link to="/tarefas" > Tarefas </Link> </li>
-                        <li> <Link to="/sobre" > Sobre </Link> </li>
+                        <li>
+                            <NavLink
+                                className={({ isActive }) => (isActive ? "active" : "notActive")} 
+                                to="/" > 
+                                    Página Inicial 
+                            </NavLink> 
+                        </li>
+                        <li>
+                            <NavLink 
+                                className={({ isActive }) => (isActive ? "active" : "notActive")}
+                                to="/tarefas" >
+                                    Tarefas 
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                className={({ isActive }) => (isActive ? "active" : "notActive")} 
+                                to="/sobre" >
+                                    Sobre 
+                            </NavLink>
+                        </li>
                     </ul>
 
                     <LogoutButton onClick={this.logout} />
@@ -72,9 +85,9 @@ class App extends Component {
     
                     <Routes>
                         <Route element={<PrivateRoutes />} >
-                            <Route path="/" element={<Home />} />
-                            <Route path="/tarefas/*" element={< Tarefas/>} />
-                            <Route path="/sobre" element={<Sobre />} />
+                            <Route path="/" element={<Home animate={true} />} />
+                            <Route path="/tarefas/*" element={< Tarefas animate={true} />} />
+                            <Route path="/sobre" element={<Sobre animate={true} />} />
                         </Route> 
                         <Route path="/login" element={<Login />} />
                     </Routes>
