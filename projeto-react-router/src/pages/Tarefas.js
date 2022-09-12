@@ -1,6 +1,8 @@
 import React from 'react';
 
-import { Route, NavLink, Routes, useParams } from 'react-router-dom';
+import { Route, Link, Routes, useParams, useLocation } from 'react-router-dom';
+
+import { TransitionGroup ,CSSTransition } from 'react-transition-group';
 
 import '../App.css';
 
@@ -28,9 +30,30 @@ const TAREFAS = [
     }
 ]
 
+function CustomLink({ children, to }) {
+    const location = useLocation();
+    const match = location.pathname === to;
+
+    return (
+        <div className={match ? 'active' : ''} >
+            {match ? '> ' : ''}
+            <Link to={ to } 
+                style={{
+                    textAlign: 'center',
+                    color: 'blue',
+                    textDecoration: 'none'
+                }} 
+            > { children } </Link>
+        </div>
+    );
+}
+
 export default function Tarefas() {
+    const location = useLocation();
     const DetalhesDaTarefa = () => {
-        const { tarefaId } = useParams();
+        const params = useParams();
+        const { tarefaId } = params;
+        console.log(tarefaId);
         const tarefa = TAREFAS.find((tarefa) => {
             return tarefa.id === parseInt(tarefaId, 10);
         });
@@ -65,22 +88,19 @@ export default function Tarefas() {
                         textAlign: 'center',
                         paddingInlineStart: '0',
                     }}>
-                    {TAREFAS.map((tarefa) => {
-                        return (
-                            <li 
-                                style={{textAlign: 'center',}}
-                                key={tarefa.id}
-                            >
-                                    <NavLink 
-                                        className={({ isActive }) => (isActive ? "active" : "notActive")} 
-                                        to={`/tarefas/${tarefa.id}`} 
-                                    >
-                                        {tarefa.titulo} 
-                                    </NavLink>
-                            </li>
-                        )
-                    })}
-
+                        {TAREFAS.map((tarefa) => {
+                            return (
+                                <li 
+                                    key={tarefa.id}
+                                >
+                                        <CustomLink
+                                            to={`/tarefas/${tarefa.id}`} 
+                                        >
+                                            {tarefa.titulo} 
+                                        </CustomLink>
+                                </li>
+                            )
+                        })}
                     </ul>
                 </div>
                 <div style={{
@@ -96,12 +116,20 @@ export default function Tarefas() {
                         margin: 'auto',
                     }}>
                         <h2>Detalhes</h2>
-                        <Routes>
-                                <Route 
-                                    path=':tarefaId' 
-                                    element={< DetalhesDaTarefa />} 
-                                />
-                        </Routes>    
+                        <TransitionGroup>
+                            <CSSTransition
+                                key={location.key}
+                                timeout={300}
+                                classNames="fade"
+                                unmountOnExit
+                            >
+                                <Routes location={location}>
+                                    <Route
+                                        path=':tarefaId'
+                                        element={< DetalhesDaTarefa />} />
+                                </Routes>
+                            </CSSTransition>
+                        </TransitionGroup>
                     </div>
                 </div>
             </div>

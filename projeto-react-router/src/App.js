@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import Tarefas from './pages/Tarefas';
 import Sobre from './pages/Sobre';
 import Login from './pages/Login';
+import Form from './pages/Form';
+import Amigos from './pages/Amigos';
 import './App.css';
 
 import LoginManager from './LoginManager';
@@ -45,6 +47,8 @@ const LogoutButton = withRouter((props) => {
     )
 });
 
+const Erro = () => (<p>404: Esta página não existe.</p>)
+
 class App extends Component {
     logout = () => {
         LoginManager.usuarioLogado = false;
@@ -77,6 +81,20 @@ class App extends Component {
                                     Sobre 
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink
+                                className={({ isActive }) => (isActive ? "active" : "notActive")} 
+                                to="/form" >
+                                    Formulário 
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                className={({ isActive }) => (isActive ? "active" : "notActive")} 
+                                to="/amigos" >
+                                    Amigos 
+                            </NavLink>
+                        </li>
                     </ul>
 
                     <LogoutButton onClick={this.logout} />
@@ -85,11 +103,14 @@ class App extends Component {
     
                     <Routes>
                         <Route element={<PrivateRoutes />} >
-                            <Route path="/" element={<Home animate={true} />} />
-                            <Route path="/tarefas/*" element={< Tarefas animate={true} />} />
-                            <Route path="/sobre" element={<Sobre animate={true} />} />
+                            <Route path="/" element={<Home />} />
+                            <Route path="/tarefas/*" element={< Tarefas />} />
+                            <Route path="/sobre" element={<Sobre />} />
+                            <Route path="/form" element={<Form />} />
+                            <Route path="/amigos/*" element={<Amigos />} />
                         </Route> 
                         <Route path="/login" element={<Login />} />
+                        <Route path="*" element={<Erro />} />
                     </Routes>
                 </div>
             </BrowserRouter>
