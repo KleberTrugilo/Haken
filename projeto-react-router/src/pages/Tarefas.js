@@ -61,12 +61,22 @@ export default function Tarefas() {
         if (!tarefa) return null;
     
         return (
-                <div>
-                     <h3>{tarefa.id}: {tarefa.titulo}</h3>
-                     <br />
-                     <p>
-                        {tarefa.descricao}
-                     </p>
+                <div style={{
+                    width: '40%',
+                    height: '200px',
+                    textAlign: 'center',
+                    backgroundColor: '#CCC',
+                    borderRadius: '10px',
+                    padding: '1rem 0',
+                    margin: 'auto',
+                    position: 'absolute'
+                }}>
+                    <h2>Detalhes</h2>
+                    <h3>{tarefa.id}: {tarefa.titulo}</h3>
+                    <br />
+                    <p>
+                    {tarefa.descricao}
+                    </p>
                 </div>
         );
     }
@@ -105,32 +115,22 @@ export default function Tarefas() {
                 </div>
                 <div style={{
                     width: '65%',
+                    position: 'relative'
                 }}>
-                    <div style={{
-                        width: '40%',
-                        height: '200px',
-                        textAlign: 'center',
-                        backgroundColor: '#CCC',
-                        borderRadius: '10px',
-                        padding: '1rem 0',
-                        margin: 'auto',
-                    }}>
-                        <h2>Detalhes</h2>
-                        <TransitionGroup>
-                            <CSSTransition
-                                key={location.key}
-                                timeout={300}
-                                classNames="fade"
-                                unmountOnExit
-                            >
-                                <Routes location={location}>
-                                    <Route
-                                        path=':tarefaId'
-                                        element={< DetalhesDaTarefa />} />
-                                </Routes>
-                            </CSSTransition>
-                        </TransitionGroup>
-                    </div>
+                    <TransitionGroup component={null}>
+                        <CSSTransition
+                            key={location.key}
+                            timeout={300}
+                            classNames="fade"
+                            // unmountOnExit
+                        >
+                            <Routes location={location}>
+                                <Route
+                                    path=':tarefaId'
+                                    element={< DetalhesDaTarefa />} />
+                            </Routes>
+                        </CSSTransition>
+                    </TransitionGroup>
                 </div>
             </div>
         </div>
